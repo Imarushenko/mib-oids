@@ -3,8 +3,8 @@ import csv
 import re   # a built-in module that provides support for regular expressions
 
 # define file paths
-mib_file_path = 'C:/develop/files/Frontline_ALLOT-MIB.mib'
-csv_file_path = 'C:/develop/files/extracted-oids.csv'
+mib_file_path = 'mib_file_path'
+csv_file_path = 'csv_file_path'
 
 # read the MIB file
 with open(mib_file_path, 'r') as file:
