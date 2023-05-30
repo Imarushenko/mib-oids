@@ -22,12 +22,11 @@ for match in matches:
     # define 3 variables to capture the values of corresponding groups from the regular expression match
     # oid = OBJECT IDENTIFIER in the MIB file
     # alternative_oid = -- in the MIB
-    # preceding_oid = OID in the MIB
     preceding_oid, oid, alternative_oid = match
     if oid:
         oids.append(oid)
-    elif preceding_oid:
-        oids.append(preceding_oid)
+    # elif preceding_oid:
+    #     oids.append(preceding_oid)
     elif alternative_oid:
         oids.append(alternative_oid)
 
