@@ -1,30 +1,42 @@
-# import the required modules
+# import the required libraries
 import csv
 import re   # a built-in module that provides support for regular expressions
 
-# setting file paths
-mib_file = 'mib/file/path.mib'
-csv_file = 'csv/file/path.csv'
+# define file paths
+mib_file = 'mib_file_path'
+csv_file = 'csv_file_path'
 
 # read the MIB file
 with open(mib_file, 'r') as file:
     mib_content = file.read()
 
 # regular expression pattern to match OIDs - sequence of digits separated by periods
-pattern = r"DESCRIPTION\s+\"(.+?)\"[\s\S]*?--\s*([\d.]+)"
+pattern = r"(?:(\S+)\s+OBJECT\s+IDENTIFIER\s+--\s*([\d.]+)\s*\n|(?:^|\n)\s*--\s*([\d.]+)\s*\n)"
 
-# find all matches of the pattern
-matches = re.findall(pattern, mib_content, re.DOTALL)
+# find all matches of the pattern (OIDs) using re library, re.findall() function that finds all the matches in the
+# MIB re.MULTILINE search the matches on each line
+matches = re.findall(pattern, mib_content, re.MULTILINE)
 
-# prepare the OIDs for writing to the CSV file
-oids = [(oid, description.strip()) for description, oid in matches]
+oids = []
+for match in matches:
+    # define 3 variables to capture the values of corresponding groups from the regular expression match
+    # oid = OBJECT IDENTIFIER in the MIB file
+    # alternative_oid = -- in the MIB
+    # preceding_oid = OID in the MIB
+    preceding_oid, oid, alternative_oid = match
+    if oid:
+        oids.append(oid)
+    elif preceding_oid:
+        oids.append(preceding_oid)
+    elif alternative_oid:
+        oids.append(alternative_oid)
 
-# save OIDs to CSV file
+# write the OIDs to CSV file
 with open(csv_file, 'w', newline='') as file:
     writer = csv.writer(file)
-    writer.writerow(['OID', 'Description'])
-    writer.writerows(oids)
+    writer.writerow(['Object Identifier (OID)'])
+    writer.writerows([(oid,) for oid in oids])
 
 # prints
-print(f"All OIDs parsed from {mib_file} and saved to {csv_file} successfully.")
+print(f"All OIDs extracted from {mib_file} and saved to {csv_file} successfully!")
 print(f"OIDs list size: {len(oids)}")
