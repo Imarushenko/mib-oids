@@ -11,7 +11,7 @@ with open(mib_file, 'r') as file:
     mib_content = file.read()
 
 # regular expression pattern to match OIDs - sequence of digits separated by periods
-# every group of regex is related to the 3 variables below in the loop, ?: ... - related to each variable
+# every group of regex is related to the 3 variables below in the loop, '?: ...' - related to each variable
 pattern = r"(?:(\S+)\s+OBJECT\s+IDENTIFIER\s+--\s*([\d.]+)\s*\n|(?:^|\n)\s*--\s*([\d.]+)\s*\n)"
 
 # find all matches of the pattern (OIDs) using re library, re.findall() function that finds all the matches in the
