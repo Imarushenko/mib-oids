@@ -4,7 +4,7 @@ import re   # a built-in module that provides support for regular expressions
 
 # define file paths
 mib_file_path = 'mib_file_path'
-csv_file_path = 'csv_file_path'
+csv_file_path = 'csv_output_file_path'
 
 # read the MIB file
 with open(mib_file_path, 'r') as file:
@@ -24,18 +24,19 @@ for match in matches:
     # oid = OBJECT IDENTIFIER in the MIB file
     # alternative_oid = -- in the MIB
     # other_regex_oid = -- in the MIB inner lines
-    other_regex_oid, oid, alternative_oid = match
+    other_regex_oid, oid, alternative_regex_oid = match
     if oid:
         oids.append(oid)
     elif other_regex_oid:
         oids.append(other_regex_oid)
-    elif alternative_oid:
-        oids.append(alternative_oid)
+    elif alternative_regex_oid:
+        oids.append(alternative_regex_oid)
 
 # write the OIDs to CSV file
 with open(csv_file_path, 'w', newline='') as file:
     writer = csv.writer(file)
     writer.writerow(['Object Identifier (OID)'])
+    # the comma in (oid,) is necessary to create a single-element tuple for each OID value in the list
     writer.writerows([(oid,) for oid in oids])
 
 # prints
