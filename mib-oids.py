@@ -4,7 +4,7 @@ import re   # a built-in module that provides support for regular expressions
 
 # define file paths
 mib_file_path = 'mib_file_path'
-csv_file_path = 'csv_output_file_path'
+csv_file_path = 'csv_file_path'
 
 # read the MIB file
 with open(mib_file_path, 'r') as file:
@@ -15,7 +15,7 @@ with open(mib_file_path, 'r') as file:
 pattern = r"(?:(\S+)\s+OBJECT\s+IDENTIFIER\s+--\s*([\d.]+)\s*\n|(?:^|\n)\s*--\s*([\d.]+)\s*\n)"
 
 # find all matches of the pattern (OIDs) using re library, re.findall() function that finds all the matches in the
-# MIB re.MULTILINE search the matches on each line
+# MIB re.MULTILINE search the matches on each line (pattern, string, flag)
 matches = re.findall(pattern, mib_file_content, re.MULTILINE)
 
 oids = []
